@@ -21,7 +21,7 @@ def api_overview(request):
 
 @api_view(['GET'])
 def task_list(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.all().order_by('-id')
     serializer = TaskSerializer(tasks, many=True)
     return Response(serializer.data)
 
@@ -41,7 +41,7 @@ def task_create(request):
     return Response(serializer.data)
 
 
-@api_view(['PUT'])
+@api_view(['POST'])
 def task_update(request, pk):
     task = Task.objects.get(pk=pk)
     serializer = TaskSerializer(instance=task, data=request.data)
